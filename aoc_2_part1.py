@@ -4,10 +4,8 @@ def possible_draw(item):
                       'blue': 14,
                       }
 
-    x = item.split(', ')
-    for e in x:
+    for e in item.split(', '):
         count_str, color = e.split(' ')
-        # print(count_str, color)
         if int(count_str) > max_count_dict[color]:
             return False
     return True
@@ -17,13 +15,13 @@ def possible_draw(item):
 # f = open('aoc_2_test_data1.txt')
 f = open('aoc_2_data1.txt')
 
-temp1 = [line.strip().split(': ')[1:] for line in f]  # remove the 'Game n: ' prefix
-for e in temp1:
+input = [line.strip().split(': ')[1:] for line in f]  # remove the 'Game n: ' prefix
+for e in input:
     print(e)
 print()
 # temp2 = [re.findall(r'\d+ blue|\d+ red|\d+ green', line) for line in temp1]
 
-game_sets = [e[0].split('; ') for e in temp1]
+game_sets = [e[0].split('; ') for e in input]
 sum_id = 0
 for i, e in enumerate(game_sets):
     print('e in game_sets', e)
