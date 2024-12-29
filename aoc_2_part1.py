@@ -12,21 +12,24 @@ def possible_draw(item):
 
 
 # part 1
-# f = open('aoc_2_test_data1.txt')
-f = open('aoc_2_data1.txt')
+f = open('aoc_2_test_data1.txt')
+# f = open('aoc_2_data1.txt')
 
+# Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 input = [line.strip().split(': ')[1:] for line in f]  # remove the 'Game n: ' prefix
-for e in input:
-    print(e)
-print()
+# ['3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green']
+
+# for draws in input:
+#     print(draws)
+# print()
 # temp2 = [re.findall(r'\d+ blue|\d+ red|\d+ green', line) for line in temp1]
 
 game_sets = [e[0].split('; ') for e in input]
 sum_id = 0
-for i, e in enumerate(game_sets):
-    print('e in game_sets', e)
-    for item in e:
-        if not possible_draw(item):
+for i, draws in enumerate(game_sets):
+    print('draws in game_sets', draws)
+    for draw in draws:
+        if not possible_draw(draw):
             break
     else:
         sum_id += i + 1  # accumulate game id/no

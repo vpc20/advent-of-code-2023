@@ -19,7 +19,11 @@ f = open('aoc_1_data1.txt')
 # sjoin = '|'.join(string_lst)
 # print(sjoin)
 
-all_nums = [re.findall(r'\d|one|two|three|four|five|six|seven|eight|nine', line) for line in f]
+# regex below does not include overlapping matches e.g. 'fiveight'. Example will only return ['five'].
+# all_nums = [re.findall(r'?=(\d|one|two|three|four|five|six|seven|eight|nine)', line) for line in f]
+
+# include overlapping matches e.g. 'fiveight'. Example will return ['five', 'eight'].
+all_nums = [re.findall(r'(?=(\d|one|two|three|four|five|six|seven|eight|nine))', line) for line in f]
 print(all_nums)
 total_calibration = sum(int(d[nums[0]] + d[nums[-1]]) for nums in all_nums)
 print(total_calibration)
@@ -30,4 +34,5 @@ print(total_calibration)
 
 f.close()
 
-# 54978 incorrect
+# 54978 incorrect - did not inlude overlapping matches in regex
+# 54985
