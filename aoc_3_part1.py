@@ -53,8 +53,8 @@ def part_numbers_sum(grid, num_coords):
 
 
 def solve_part1():
-    # grid = read_input_to_grid('aoc_3_test_data1.txt')
-    grid = read_input_to_grid('aoc_3_data1.txt')
+    grid = read_input_to_grid('aoc_3_test_data1.txt')
+    # grid = read_input_to_grid('aoc_3_data1.txt')
     num_coords = find_numbers_in_grid(grid)
     return part_numbers_sum(grid, num_coords)
 
