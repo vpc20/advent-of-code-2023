@@ -98,7 +98,7 @@ def find_lowest_location(seed_ranges: List[Tuple[int, int]],
 
 def main():
     # Parse input
-    seed_ranges, maps = parse_input('aoc_5_test_data1.txt')
+    seed_ranges, maps = parse_input('aoc_5_test_data2.txt')
 
     # Find lowest location
     result = find_lowest_location(seed_ranges, maps)
@@ -107,4 +107,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # 47909639 - correct answer
