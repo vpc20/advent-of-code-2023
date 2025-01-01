@@ -1,7 +1,7 @@
 import requests
 
 # URL of the web page
-url = 'https://adventofcode.com/2023/day/1/input'
+url = 'https://adventofcode.com/2023/day/2/input'
 
 # Your session cookie (replace 'your_session_cookie' with the actual session cookie)
 cookies = {
