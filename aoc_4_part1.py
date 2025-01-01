@@ -11,6 +11,7 @@ def solve_part1():
     all_numbers = [e.strip().split('|') for e in rsplit_input]
     total_points = 0
     for numbers in all_numbers:
+        print(numbers)
         winning_numbers = set(re.findall(r'\d+', numbers[0]))
         my_numbers = re.findall(r'\d+', numbers[1])
         winning_num_count = len([my_number for my_number in my_numbers if my_number in winning_numbers])
@@ -21,4 +22,4 @@ def solve_part1():
 
 if __name__ == '__main__':
     print(solve_part1())
-    # 527364
+    # 21821
