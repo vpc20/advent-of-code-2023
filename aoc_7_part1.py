@@ -1,6 +1,6 @@
 from collections import defaultdict, Counter
 
-from aoc_tools import read_input_to_text_array, print_text_array
+from aoc_tools import read_input_to_text_array
 
 HIGH_CARD = 1
 ONE_PAIR = 2
@@ -34,11 +34,6 @@ def card_hand_val(v):
     return total
 
 
-def count_card_val(item):
-    k, v = item
-    pass
-
-
 def get_hand_type(hand):
     hand_set = set(list(hand))
     card_counter = Counter(hand)
@@ -59,44 +54,57 @@ def get_hand_type(hand):
     elif len(hand_set) == 1:
         hand_type = FIVE_OF_A_KIND
 
-    # sorted_hand = sorted(list(hand), key=card_val, reverse=True)
+    sorted_card_counter = dict(sorted(card_counter.items(), key=lambda e: (-e[1], -card_val(e[0]))))
 
-    # x = sorted(card_counter, key=count_card_val, reverse=True)
+    arranged_hand = ''
+    for k, v in sorted_card_counter.items():
+        arranged_hand += k * v
 
-    return sorted_hand, hand_type
-
-
-def solve_part1():
-    pass
+    return arranged_hand, hand_type
 
 
-if __name__ == '__main__':
-    input = read_input_to_text_array('aoc_7_test_data1.txt')
-    print(input)
-    print_text_array(input)
-
+def create_card_dict():
     card_dict = defaultdict(list)
     for e in input:
         hand, bid = e.split()
-        sorted_hand, hand_type = get_hand_type(hand)
-        card_dict[hand_type].append((sorted_hand, int(bid)))
+        arranged_hand, hand_type = get_hand_type(hand)
+        card_dict[hand_type].append((arranged_hand, int(bid)))
+    return card_dict
 
+
+def sort_card_hand_list(card_dict):
     for k, v in card_dict.items():
-        print(v)
-        sortedv = sorted(v, key=card_hand_val, reverse=True)
+        sortedv = sorted(v, key=lambda e: (
+            card_val(e[0][0]), card_val(e[0][1]), card_val(e[0][2]), card_val(e[0][3]), card_val(e[0][4])))
         card_dict[k] = sortedv
+    return card_dict
 
-    for k, v in card_dict.items():
-        print(k, v)
-    print()
 
-    total_winnings = 0
-    rank = 0
+def compute_total_winnings(card_dict):
+    total_winnings, rank = 0, 0
     for k in sorted(card_dict.keys()):
-        print(k)
         for card_hand, bid in card_dict[k]:
-            print(card_hand)
             rank += 1
-            print(bid, rank)
+            print(card_hand, bid, rank)
             total_winnings += bid * rank
-    print(total_winnings)
+    return total_winnings
+
+
+if __name__ == '__main__':
+    # input = read_input_to_text_array('aoc_7_test_data1.txt')
+    input = read_input_to_text_array('aoc_7_data1.txt')
+
+    #  create card dictionary where hand type is key
+    #  the dictionary consists of list of arranged card hands
+    card_dict = create_card_dict()
+
+    # sort the list of card hands in ascending order
+    card_dict = sort_card_hand_list(card_dict)
+
+    print(compute_total_winnings(card_dict))
+
+    # set1 = set()
+    # for v in card_dict.values():
+    #     for e in v:
+    #         set1.add(e[0])
+    # print(len(set1))
