@@ -36,6 +36,24 @@ def read_input_to_nums(in_file):
     return result
 
 
+def read_text_to_nums(text):
+    # nums = [re.findall(r'\d+', line) for line in text.split('\n')]
+    nums = []
+    for line in text.split('\n'):
+        regex_nums = re.findall(r'\d+', line)
+        if regex_nums:
+            nums.append(regex_nums)
+    result = [[int(n) for n in num] for num in nums]
+    return result
+
+
+def read_input_to_sections(in_file):
+    f = open(in_file)
+    sections = f.read().split('\n\n')
+    f.close()
+    return sections
+
+
 def print_grid(arr):
     for e in arr:
         print(e)
@@ -51,6 +69,12 @@ def print_grid_with_tabs(arr):
 def print_grid_as_text(arr):
     for e in arr:
         print(''.join(c for c in e))
+    print()
+
+
+def print_text_array(arr):
+    for e in arr:
+        print(e)
     print()
 
 
@@ -74,14 +98,22 @@ def create_graph_from_grid(grid):
 
 
 if __name__ == '__main__':
-    grid = read_input_to_grid('input.txt')
-    print_grid(grid)
-    print_grid_as_text(grid)
+    # grid = read_input_to_grid('input.txt')
+    # print_grid(grid)
+    # print_grid_as_text(grid)
+    #
+    # x = read_input_to_nums('aoc_13_test_data1.txt')
+    # print(x)
+    # print_grid(x)
+    #
+    # x = read_input_to_nums('aoc_2_test_data1.txt')
+    # print_grid(x)
+    # print_grid_with_tabs(x)
 
-    x = read_input_to_nums('aoc_13_test_data1.txt')
-    print(x)
-    print_grid(x)
+    sections = read_input_to_sections('aoc_5_test_data1.txt')
+    for section in sections:
+        print(section)
+        print()
+        print(read_text_to_nums(section))
 
-    x = read_input_to_nums('aoc_2_test_data1.txt')
-    print_grid(x)
-    print_grid_with_tabs(x)
+    # print(read_text_to_nums(section[0]))

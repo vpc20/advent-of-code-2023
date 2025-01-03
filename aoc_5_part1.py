@@ -18,8 +18,8 @@ def create_map_range(input_data):
 
 def parse_text_input():
     # global input, seeds, array_of_map_ranges, i
-    # f = open('aoc_5_test_data1.txt')
-    f = open('aoc_5_data1.txt')
+    f = open('aoc_5_test_data1.txt')
+    # f = open('aoc_5_data1.txt')
     input = f.read().split('\n\n')
     f.close()
     for e in input:
