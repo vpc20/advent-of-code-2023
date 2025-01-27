@@ -22,53 +22,47 @@ def card_val(card):
         return 11
     elif card == 'T':
         return 10
+    elif card == 'J':
+        return 1
     else:
         return int(card)
 
 
-# def card_hand_val(v):
-#     card_hand_arr, bid = v
-#     total = 0
-#     for i, card in enumerate(card_hand_arr):
-#         total += card_val(card) * len(card_hand_arr) - i
-#     return total
+def get_strongest_hand_type(hand):
+    strongest_hand_type = HIGH_CARD
 
+    regular_cards = [c for c in hand if c != 'J']  # not Joker
+    for c in regular_cards:
+        replaced_hand = hand.replace('J', c)  # try replacing joker to make the stronges hand
+        hand_set = set(list(replaced_hand))
+        card_counter = Counter(replaced_hand)
+        if len(hand_set) == 5:
+            hand_type = HIGH_CARD
+        elif len(hand_set) == 4:
+            hand_type = ONE_PAIR
+        elif len(hand_set) == 3:
+            if 3 in card_counter.values():
+                hand_type = THREE_OF_A_KIND
+            else:
+                hand_type = TWO_PAIR
+        elif len(hand_set) == 2:
+            if 4 in card_counter.values():
+                hand_type = FOUR_OF_A_KIND
+            else:
+                hand_type = FULL_HOUSE
+        elif len(hand_set) == 1:
+            hand_type = FIVE_OF_A_KIND
 
-def get_hand_type(hand):
-    hand_set = set(list(hand))
-    card_counter = Counter(hand)
-    if len(hand_set) == 5:
-        hand_type = HIGH_CARD
-    elif len(hand_set) == 4:
-        hand_type = ONE_PAIR
-    elif len(hand_set) == 3:
-        if 3 in card_counter.values():
-            hand_type = THREE_OF_A_KIND
-        else:
-            hand_type = TWO_PAIR
-    elif len(hand_set) == 2:
-        if 4 in card_counter.values():
-            hand_type = FOUR_OF_A_KIND
-        else:
-            hand_type = FULL_HOUSE
-    elif len(hand_set) == 1:
-        hand_type = FIVE_OF_A_KIND
+        strongest_hand_type = max(strongest_hand_type, hand_type)
 
-    #  sort by card hand type, card value
-    # sorted_card_counter = dict(sorted(card_counter.items(), key=lambda e: (-e[1], -card_val(e[0]))))
-
-    # arranged_hand = ''
-    # for k, v in sorted_card_counter.items():
-    #     arranged_hand += k * v
-
-    return hand_type
+    return strongest_hand_type
 
 
 def create_card_dict():
     card_dict = defaultdict(list)
     for e in input:
         hand, bid = e.split()
-        hand_type = get_hand_type(hand)
+        hand_type = get_strongest_hand_type(hand)
         card_dict[hand_type].append((hand, int(bid)))
     return card_dict
 
@@ -86,14 +80,14 @@ def compute_total_winnings(card_dict):
     for hand_type, hand_list in card_dict.items():
         for card_hand, bid in hand_list:
             rank += 1
-            print(card_hand, bid, rank)
+            print(hand_type, card_hand, bid, rank)
             total_winnings += bid * rank
     return total_winnings
 
 
 if __name__ == '__main__':
-    # input = read_input_to_text_array('aoc_7_test_data1.txt')
-    input = read_input_to_text_array('aoc_7_data1.txt')
+    input = read_input_to_text_array('aoc_7_test_data1.txt')
+    # input = read_input_to_text_array('aoc_7_data1.txt')
 
     #  create card dictionary where hand type is key
     #  the dictionary consists of list of arranged card hands
@@ -101,15 +95,7 @@ if __name__ == '__main__':
 
     # sort the list of hands in ascending order
     card_dict = sort_hand_list(card_dict)
-
     # sort by hand type
     card_dict = dict(sorted(card_dict.items()))
 
     print(compute_total_winnings(card_dict))
-    # 248179786
-
-    # set1 = set()
-    # for v in card_dict.values():
-    #     for e in v:
-    #         set1.add(e[0])
-    # print(len(set1))
