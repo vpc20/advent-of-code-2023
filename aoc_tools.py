@@ -30,7 +30,7 @@ def read_input_to_list_of_grids(in_file):
 
 def read_input_to_nums(in_file):
     f = open(in_file)
-    nums = [re.findall(r'\d+', line) for line in f]
+    nums = [re.findall(r'-*\d+', line) for line in f]  # include negative numbers
     result = [[int(n) for n in num] for num in nums]
     f.close()
     return result
