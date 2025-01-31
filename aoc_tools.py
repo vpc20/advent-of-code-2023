@@ -28,10 +28,17 @@ def read_input_to_list_of_grids(in_file):
     return grids
 
 
-def read_input_to_nums(in_file):
+def read_input_to_nums(in_file):  # use this if there are charactes in the input which need to be filtered out
     f = open(in_file)
     nums = [re.findall(r'-*\d+', line) for line in f]  # include negative numbers
     result = [[int(n) for n in num] for num in nums]
+    f.close()
+    return result
+
+
+def read_input_to_nums1(in_file):  # use this if all the inputs are numbers only
+    f = open(in_file)
+    result = [[int(num) for num in line.strip().split()] for line in f]
     f.close()
     return result
 
@@ -110,10 +117,13 @@ if __name__ == '__main__':
     # print_grid(x)
     # print_grid_with_tabs(x)
 
-    sections = read_input_to_sections('aoc_5_test_data1.txt')
-    for section in sections:
-        print(section)
-        print()
-        print(read_text_to_nums(section))
+    # sections = read_input_to_sections('aoc_5_test_data1.txt')
+    # for section in sections:
+    #     print(section)
+    #     print()
+    #     print(read_text_to_nums(section))
 
     # print(read_text_to_nums(section[0]))
+
+    nums = read_input_to_nums1('input.txt')
+    print(nums)
