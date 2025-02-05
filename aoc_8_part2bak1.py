@@ -1,29 +1,27 @@
 import re
-from math import lcm
 
 from aoc_tools import read_input_to_sections
 
 
 def navigate_desert(lr_instructions, nodes_dict, curr_nodes):
     steps = 0
-    steps_list = []
-    for curr_node in curr_nodes:
-        node = curr_node
-        end_of_navigation = False
-        while not end_of_navigation:
-            for direction in lr_instructions:
+    end_of_navigation = False
+    while not end_of_navigation:
+        for direction in lr_instructions:
+            end_nodes = []
+            for node in curr_nodes:
                 if direction == 'L':
-                    end_node = nodes_dict[node][0]
+                    end_nodes.append(nodes_dict[node][0])
                 else:
-                    end_node = nodes_dict[node][1]
-                steps += 1
-                node = end_node
-                if end_node.endswith('Z'):
-                    end_of_navigation = True
-                    steps_list.append(steps)
-                    break
-    print(steps_list)
-    return lcm(*steps_list)
+                    end_nodes.append(nodes_dict[node][1])
+            steps += 1
+            # print(steps, end_nodes)
+            curr_nodes = end_nodes[:]
+            if all(nodes.endswith('Z') for nodes in end_nodes):
+                end_of_navigation = True
+                break
+        # print('directions exhausted')
+    return steps
 
 
 if __name__ == '__main__':

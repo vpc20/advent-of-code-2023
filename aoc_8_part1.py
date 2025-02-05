@@ -18,7 +18,7 @@ def navigate_desert(lr_instructions, nodes_dict):
 
 
 if __name__ == '__main__':
-    # f = open('aoc_8_data1a.txt')
+    # f = open('aoc_8_data1.txt')
     # for line in f:
     #     lr_instructions = line.strip()
     # f.close()
@@ -30,15 +30,16 @@ if __name__ == '__main__':
     # for k, v in nodes_dict.items():
     #     print(k, v)
 
-    sections = read_input_to_sections('aoc_8_test_data2.txt')
+    sections = read_input_to_sections('aoc_8_data1.txt')
     lr_instructions = sections[0]
     print(lr_instructions)
 
-    all_nodes = [re.findall(r'[A-Z]{3}', line) for line in sections[1].split('\n')]
+    all_nodes = [re.findall(r'[A-Z]{3}', line) for line in sections[1].strip().split('\n')]
+    for nodes in all_nodes:
+        print(nodes)
     nodes_dict = {nodes[0]: (nodes[1], nodes[2]) for nodes in all_nodes}
-    for k, v in nodes_dict.items():
-        print(k, v)
-
+    # for k, v in nodes_dict.items():
+    #     print(k, v)
 
     print(navigate_desert(lr_instructions, nodes_dict))
 
