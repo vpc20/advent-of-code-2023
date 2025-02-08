@@ -43,6 +43,13 @@ def read_input_to_nums1(in_file):  # use this if all the inputs are numbers only
     return result
 
 
+def read_input_to_sections(in_file):
+    f = open(in_file)
+    sections = f.read().split('\n\n')
+    f.close()
+    return sections
+
+
 def read_text_to_nums(text):
     # nums = [re.findall(r'\d+', line) for line in text.split('\n')]
     nums = []
@@ -52,13 +59,6 @@ def read_text_to_nums(text):
             nums.append(regex_nums)
     result = [[int(n) for n in num] for num in nums]
     return result
-
-
-def read_input_to_sections(in_file):
-    f = open(in_file)
-    sections = f.read().split('\n\n')
-    f.close()
-    return sections
 
 
 def print_grid(arr):
