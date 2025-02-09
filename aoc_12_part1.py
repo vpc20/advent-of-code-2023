@@ -11,7 +11,7 @@ def validate_arrangement(s, damage):
 
 
 if __name__ == '__main__':
-    f = open('aoc_12_data1.txt')
+    f = open('aoc_12_test_data1.txt')
     input = [line.strip().split() for line in f]
     f.close()
 
@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     sum_count = 0
     for i, pattern in enumerate(patterns):
-        print(pattern)
+        # print(pattern)
         arr = ['.#' for i in range(pattern.count('?'))]
         # print('pattern', pattern)
         for p in itertools.product(*arr):
