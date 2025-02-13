@@ -122,10 +122,7 @@ if __name__ == '__main__':
     card_dict = dict(sorted(card_dict.items()))
 
     print(compute_total_winnings(card_dict))
-    # 247338626 incorrect
-    # 247394936
-    # 247447059
-    # 247385181
+    # 247885995
 
     # temp1 = [e.split()[0] for e in input]
     # print(temp1)
