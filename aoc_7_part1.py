@@ -107,9 +107,3 @@ if __name__ == '__main__':
 
     print(compute_total_winnings(card_dict))
     # 248179786
-
-    # set1 = set()
-    # for v in card_dict.values():
-    #     for e in v:
-    #         set1.add(e[0])
-    # print(len(set1))

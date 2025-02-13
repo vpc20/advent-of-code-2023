@@ -1,4 +1,5 @@
 from collections import defaultdict, Counter
+from itertools import product
 
 from aoc_tools import read_input_to_text_array
 
@@ -18,8 +19,8 @@ def card_val(card):
         return 13
     elif card == 'Q':
         return 12
-    elif card == 'J':
-        return 11
+    # elif card == 'J':  # in part 2,  J card are jokers
+    #     return 11
     elif card == 'T':
         return 10
     elif card == 'J':
@@ -28,37 +29,58 @@ def card_val(card):
         return int(card)
 
 
+def get_hand_type(hand):
+    hand_set = set(list(hand))
+    card_counter = Counter(hand)
+    if len(hand_set) == 5:
+        hand_type = HIGH_CARD
+    elif len(hand_set) == 4:
+        hand_type = ONE_PAIR
+    elif len(hand_set) == 3:
+        if 3 in card_counter.values():
+            hand_type = THREE_OF_A_KIND
+        else:
+            hand_type = TWO_PAIR
+    elif len(hand_set) == 2:
+        if 4 in card_counter.values():
+            hand_type = FOUR_OF_A_KIND
+        else:
+            hand_type = FULL_HOUSE
+    elif len(hand_set) == 1:
+        hand_type = FIVE_OF_A_KIND
+
+    return hand_type
+
+
 def get_strongest_hand_type(hand):
     strongest_hand_type = HIGH_CARD
+    strongest_hand = ''
+
+    if hand == 'JJJJJ':
+        return FIVE_OF_A_KIND
+
+    if 'J' not in hand:
+        return get_hand_type(hand)
 
     regular_cards = [c for c in hand if c != 'J']  # not Joker
-    for c in regular_cards:
-        replaced_hand = hand.replace('J', c)  # try replacing joker to make the stronges hand
-        hand_set = set(list(replaced_hand))
-        card_counter = Counter(replaced_hand)
-        if len(hand_set) == 5:
-            hand_type = HIGH_CARD
-        elif len(hand_set) == 4:
-            hand_type = ONE_PAIR
-        elif len(hand_set) == 3:
-            if 3 in card_counter.values():
-                hand_type = THREE_OF_A_KIND
-            else:
-                hand_type = TWO_PAIR
-        elif len(hand_set) == 2:
-            if 4 in card_counter.values():
-                hand_type = FOUR_OF_A_KIND
-            else:
-                hand_type = FULL_HOUSE
-        elif len(hand_set) == 1:
-            hand_type = FIVE_OF_A_KIND
+    countj = hand.count('J')
+    arr = [list(set(regular_cards)) for i in range(countj)]
 
-        strongest_hand_type = max(strongest_hand_type, hand_type)
+    for p in product(*arr):
+        print('p', p)
+        permuted_hand = hand
+        for c in p:
+            permuted_hand = permuted_hand.replace('J', c, 1)
+        print('hand, permuted_hand', hand, permuted_hand)
+        new_hand_type = get_hand_type(permuted_hand)
+        if new_hand_type > strongest_hand_type:
+            strongest_hand_type = new_hand_type
+            strongest_hand = permuted_hand
 
     return strongest_hand_type
 
 
-def create_card_dict():
+def create_card_dict(input):
     card_dict = defaultdict(list)
     for e in input:
         hand, bid = e.split()
@@ -86,12 +108,13 @@ def compute_total_winnings(card_dict):
 
 
 if __name__ == '__main__':
-    input = read_input_to_text_array('aoc_7_test_data1.txt')
-    # input = read_input_to_text_array('aoc_7_data1.txt')
+    # input = read_input_to_text_array('aoc_7_test_data1.txt')
+    # input = read_input_to_text_array('aoc_7_test_data2.txt')
+    input = read_input_to_text_array('aoc_7_data1.txt')
 
     #  create card dictionary where hand type is key
     #  the dictionary consists of list of arranged card hands
-    card_dict = create_card_dict()
+    card_dict = create_card_dict(input)
 
     # sort the list of hands in ascending order
     card_dict = sort_hand_list(card_dict)
@@ -99,3 +122,13 @@ if __name__ == '__main__':
     card_dict = dict(sorted(card_dict.items()))
 
     print(compute_total_winnings(card_dict))
+    # 247338626 incorrect
+    # 247394936
+    # 247447059
+    # 247385181
+
+    # temp1 = [e.split()[0] for e in input]
+    # print(temp1)
+    # print(len(temp1))
+    # print(len(set(temp1)))
+
