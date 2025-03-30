@@ -9,6 +9,13 @@ def read_input_to_grid(in_file):
     return result
 
 
+def read_input_to_grid_int(in_file):
+    f = open(in_file)
+    result = [[int(c) for c in line.strip()] for line in f]
+    f.close()
+    return result
+
+
 def read_input_to_text_array(in_file):
     f = open(in_file)
     result = [line.strip() for line in f]
