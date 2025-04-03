@@ -24,21 +24,38 @@ def convert_ratings_to_dict(text):
 
 
 def apply_workflow(ratings_dict, wf_dict):
-    for part_code, part_val in ratings_dict.items():
-        print(part_code, part_val)
-        rules_dict = wf_dict['in']
-        pass
+    x = int(ratings_dict['x'])
+    m = int(ratings_dict['m'])
+    a = int(ratings_dict['a'])
+    s = int(ratings_dict['s'])
+    sum_xmas = x + m + a + s
+    wf_code = 'in'  # initial workflow code
+    print('initial code', wf_code)
+
+    while True:
+        for k, v in wf_dict[wf_code].items():
+            if k in ['A', 'R']:
+                print('return stat', k)
+                return k, sum_xmas
+            if '<' in k or '>' in k:
+                if eval(k):
+                    if v in ['A', 'R']:
+                        print('return stat', v)
+                        return v, sum_xmas
+                    wf_code = v
+                    print('next code', wf_code)
+                    break
+            else:
+                wf_code = k
+                print('next code', wf_code)
 
 
 if __name__ == '__main__':
-    sections = read_input_to_sections('aoc_19_test_data1.txt')
+    # sections = read_input_to_sections('aoc_19_test_data1.txt')
+    sections = read_input_to_sections('aoc_19_data1.txt')
     # print(len(sections))
     # print(sections[0])
     # print(sections[1])
-
-    # workflows = [line for line in sections[0].strip().split()]
-    # wf_dict = {e.split('{')[0]: e.split('{')[1][:-1] for e in workflows}
-    # print(wf_dict)
 
     wf_dict = {}
     for line in sections[0].strip().split():
@@ -58,8 +75,13 @@ if __name__ == '__main__':
     print('ratings_list')
     for e in ratings_list:
         print(e)
-
     print()
+
+    total = 0
     for ratings_dict in ratings_list:
         print(ratings_dict, type(ratings_dict))
-        apply_workflow(ratings_dict, wf_dict)
+        stat, sum_xmas = apply_workflow(ratings_dict, wf_dict)
+        print(ratings_dict, stat)
+        if stat == 'A':
+            total += sum_xmas
+    print(total)
